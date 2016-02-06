@@ -1,13 +1,19 @@
 var models = require('../models');
-var dbConnection = require();
 
 module.exports = {
   messages: {
     get: function (req, res) {
-       // a function which handles a get request for all messages
-
+       // a function which handles a get request for all message
     },
     post: function (req, res) {
+      console.log('controller');
+      models.messages.post(req, function(err, result) {
+        if (err) {
+          console.log("ERROR ONE!!!");
+          throw err;
+        }
+      });
+        //callback will change database with dat);
       // a function which handles posting a message to the database
 
     } 
@@ -15,8 +21,11 @@ module.exports = {
 
   users: {
     // Ditto as above
-    get: function (req, res) {},
-    post: function (req, res) {}
+    get: function (req, res) {
+    },
+    post: function (req, res) {
+      console.log('users.controller');
+    }
   }
 };
 
