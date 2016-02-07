@@ -22,11 +22,11 @@ CREATE TABLE users (
 CREATE TABLE messages (
   /* Describe your table here.*/
   id integer(2) auto_increment,
-  user varchar(15),
+  user integer(2),
   room varchar(15),
   message varchar(150),
   primary key (id)
-  -- foreign key (user) references users(id)
+  foreign key (user) references users(id)
   -- foreign key (room) references rooms(id)
 );
 

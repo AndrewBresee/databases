@@ -3,28 +3,42 @@ var models = require('../models');
 module.exports = {
   messages: {
     get: function (req, res) {
-       // a function which handles a get request for all message
-    },
+       models.messages.get( function(err, result) {
+         if (err) {
+           throw err;
+         }
+         res.json(result);
+       });    
+     },
     post: function (req, res) {
-      console.log('controller');
-      models.messages.post(req, function(err, result) {
+      var params = [req.body.username,req.body.roomname,req.body.message];
+      models.messages.post(params, function(err, result) {
         if (err) {
-          console.log("ERROR ONE!!!");
           throw err;
         }
+        res.sendStatus(201);
       });
-        //callback will change database with dat);
-      // a function which handles posting a message to the database
-
     } 
   },
 
   users: {
     // Ditto as above
     get: function (req, res) {
-    },
+        models.users.get( function(err, result) {
+          if (err) {
+            throw err;
+          }
+          res.json(result);
+        });    
+      },
     post: function (req, res) {
-      console.log('users.controller');
+      var params = [req.body.username];
+      models.user.post(params, function(err, result) {
+        if (err) {
+          throw err;
+        }
+        res.sendStatus(201);
+      });
     }
   }
 };

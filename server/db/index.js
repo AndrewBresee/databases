@@ -6,9 +6,12 @@ var mysql = require('mysql');
 
 //server/db/index.js uses the mysql npm module to connect to the database server running on your computer
 //We want it to connect to the mySQL database we have running
-exports.Connection = mysql.createConnection({
-  //host: 'http://127.0.0.1:3000',
+connection = mysql.createConnection({
   user: 'root',
   password: '1234',
   database: 'chat'
 });
+
+connection.connect();
+
+exports = connection;

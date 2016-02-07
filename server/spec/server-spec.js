@@ -16,8 +16,9 @@ describe('Persistent Node Chat Server', function() {
     });
     dbConnection.connect();
 
-       var tablename = "messages"; // TODO: fill this out
 
+    var tablename = 'messages';
+    
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
     dbConnection.query('truncate ' + tablename, done);
@@ -29,10 +30,10 @@ describe('Persistent Node Chat Server', function() {
 
   it('Should insert posted messages to the DB', function(done) {
     // Post the user to the chat server.
-    // request({ method: 'POST',
-    //           uri: 'http://127.0.0.1:3000/classes/users',
-    //           json: { username: 'Valjean' }
-    // }, function () {
+    request({ method: 'POST',
+              uri: 'http://127.0.0.1:3000/classes/users',
+              json: { username: 'Valjean' }
+    }, function () {
       // Post a message to the node chat server:
       request({ method: 'POST',
               uri: 'http://127.0.0.1:3000/classes/messages',
@@ -61,12 +62,14 @@ describe('Persistent Node Chat Server', function() {
         });
       });
     });
+  });
 
   it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
-       var queryString = "";
-       var queryArgs = [];
-    // TODO - The exact query string and query args to use
+
+    var queryString = 'INSERT INTO Messages(text, userid, roomname) VALUES (?, ?, ?)';
+    var queryArgs = ['Men like you can never change!', 1, 'main'];
+        // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
     // them up to you. */
 

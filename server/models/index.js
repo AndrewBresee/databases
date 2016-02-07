@@ -1,38 +1,36 @@
 var db = require('../db');
-var connection = db.Connection;
-
-// exports.messagePostCB = function () {
-//   console.log("SOMETHING HAPPENED OUTSIDE CALL!!");
-//   ts[0]);
-//     });
-//   });
-// };
 
 module.exports = {
   messages: {
-    get: function (res) {
-
-    }, // a function which produces all the messages
-    post: function (res,cb) {
-      console.log("RES.BODY : ", res.body);
-      connection.query('insert into chat.messages(user, room, message) values (?, ?, ?)', [res.body.username, res.body.roomname, res.body.message], function(err, results) {
-        if(err){
-          console.log("ERROR!!");
-          throw err; 
-        }
-
-        console.log("SOMETHING HAPPENED INSIDE CALL!!");
-        console.log(results);
+    get: function (cb) {
+      var queryString = "select messages.id, messages.message, messages.room, users.name from messages \
+                        left outer join users on (messages.user = users.id) order by messages.id desc";
+      db.query(queryString,function (err,results) {
         cb(err, results);
-      // cb(res.body);
+      });
+    }, // a function which produces all the messages
+    post: function (params, cb) {
+      var queryString = "insert into messages (user, room, message) value ( (select id from users where name = ? limit 1), ?, ?)";
+      db.query(queryString, params, function(err, results) {
+        cb(err, results);
       });
     }
   },
    // a function which can be used to insert a message into the databas
   users: {
     // Ditto as above.
-    get: function () {},
-    post: function () {}
+    get: function (cb) {
+      var queryString = "select * from users";
+      db.query(queryString,function (err, results) {
+        cb(err, results);
+      });
+    },
+    post: function (params, cb) {
+      var queryString = "insert into users (name) value (?)";
+      db.query(queryString, params, function(err, results) {
+        cb(err, results);
+      });
+    }
   }
 };
 
